@@ -1,0 +1,52 @@
+<div>
+  <h1 mat-dialog-title>Criar Entrada</h1>
+  <form mat-dialog-content class='form' form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Alimento</mat-label>
+      <mat-select formControlName="foodId" required>
+        <mat-option *ngFor="let food of foods" [value]="food.id">
+          {{food.name}}
+        </mat-option>
+        <mat-error *ngIf="registerForm.get('foodId')?.hasError('required')">
+          Obrigatório
+        </mat-error>
+
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Estoque</mat-label>
+      <mat-select formControlName="stockId">
+        <mat-option *ngFor="let stock of stocks" [value]="stock.id">
+          {{stock.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="registerForm.get('stockId')?.hasError('required')">
+        Obrigatório
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="input-full-width">
+      <mat-label>Quantidade</mat-label>
+      <input formControlName="quantity" type="number" matInput placeholder="Digite">
+      <mat-error *ngIf="registerForm.get('quantity')?.hasError('required')">
+        Obrigatório
+      </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data de expiração</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="registerForm.get('expirationDate')?.hasError('required')">
+        Obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-button mat-raised-button color="primary">Criar entrada</button>
+  </form>
+</div>

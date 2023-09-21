@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
-import { map } from 'rxjs';
 import {
+  CREATE_ENTRY,
   GET_ENTRIES,
   GET_EXITS,
   GET_FOODS,
@@ -9,6 +9,12 @@ import {
   GET_UNITS,
 } from 'src/app/graphql/graphql.queries';
 
+export interface ICreateEntry {
+  foodId: number;
+  stockId: number;
+  quantity: number;
+  expirationDate: string;
+}
 interface IFilter {
   by: string;
   value: string;
@@ -64,14 +70,38 @@ export class DashboardService {
     });
   };
 
-  getEntries = (params: IEntriesAndExitsParams) => {
+  getEntries = (params?: IEntriesAndExitsParams) => {
     return this.apollo.watchQuery({
       query: GET_ENTRIES,
       variables: params,
     });
   };
 
-  getExits = (params: IEntriesAndExitsParams) => {
+  createEntry = ({
+    foodId,
+    stockId,
+    quantity,
+    expirationDate,
+  }: ICreateEntry) => {
+    return this.apollo.mutate<any>({
+      mutation: CREATE_ENTRY,
+      variables: {
+        data: {
+          foodId,
+          stockId,
+          quantity,
+          expirationDate,
+        },
+      },
+      refetchQueries: [
+        {
+          query: GET_ENTRIES,
+        },
+      ],
+    });
+  };
+
+  getExits = (params?: IEntriesAndExitsParams) => {
     return this.apollo.watchQuery({
       query: GET_EXITS,
       variables: params,
