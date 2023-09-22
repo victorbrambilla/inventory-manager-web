@@ -27,6 +27,9 @@ const GET_FOODS = gql`
         id
         quantity
       }
+      unit {
+        name
+      }
     }
   }
 `;

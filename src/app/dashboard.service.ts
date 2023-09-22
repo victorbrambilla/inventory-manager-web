@@ -104,6 +104,9 @@ export class DashboardService {
         {
           query: GET_ENTRIES,
         },
+        {
+          query: GET_FOODS,
+        },
       ],
     });
   };
@@ -130,6 +133,9 @@ export class DashboardService {
         },
         {
           query: GET_EXITS,
+        },
+        {
+          query: GET_FOODS,
         },
       ],
     });

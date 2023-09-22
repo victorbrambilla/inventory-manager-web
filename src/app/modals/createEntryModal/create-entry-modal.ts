@@ -47,7 +47,6 @@ export class CreateEntryModal implements OnInit {
           this.snackBar.open('Entrada criada com sucesso!', 'Fechar', {
             duration: 2000,
           });
-          this.dialogRef.close();
         },
         (error) => {
           console.log(error.message);

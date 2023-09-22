@@ -10,12 +10,16 @@ interface IEntries {
 export interface IFood {
   id: number;
   name: string;
+  unit: {
+    name: string;
+  };
   entries: IEntries[];
 }
 
 interface IFoodMap {
   id: number;
   name: string;
+  unitName: string;
   quantity: number;
 }
 @Component({
@@ -26,7 +30,7 @@ interface IFoodMap {
 export class FoodTableComponent implements AfterViewInit, OnInit {
   constructor(private dashboardService: DashboardService) {}
   private items$: any;
-  displayedColumns: string[] = ['id', 'name', 'quantity'];
+  displayedColumns: string[] = ['id', 'name', 'quantity', 'unit'];
   dataSource: IFoodMap[] = [];
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
@@ -38,6 +42,7 @@ export class FoodTableComponent implements AfterViewInit, OnInit {
         return {
           id: i.id,
           name: i.name,
+          unitName: i.unit.name,
           quantity: i.entries.reduce(
             (total: number, entry: IEntries) => total + entry.quantity,
             0,
