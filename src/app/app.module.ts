@@ -19,12 +19,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { CreateEntryModal } from 'src/app/modals/createEntryModal/create-entry-modal';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CreateExitModal } from 'src/app/modals/createExitModal/create-exit-modal';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     ExitTableComponent,
     DashboardComponent,
     CreateEntryModal,
+    CreateExitModal,
     NavbarComponent,
   ],
   imports: [
@@ -59,7 +65,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     NgIf,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    // ...
+    { provide: MAT_DIALOG_DATA, useValue: {} }, // Adicione esta linha
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

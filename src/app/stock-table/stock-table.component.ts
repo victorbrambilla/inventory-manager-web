@@ -16,8 +16,6 @@ export class StockTableComponent implements AfterViewInit, OnInit {
   private items$: any;
   displayedColumns: string[] = ['id', 'name'];
   dataSource: IStock[] = [];
-  searchText: string = '';
-  sortField: string = '';
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 

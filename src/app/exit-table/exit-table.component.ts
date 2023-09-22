@@ -2,45 +2,42 @@ import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { DashboardService, IStock } from 'src/app/dashboard.service';
+import { IEntry } from 'src/app/entry-table/entry-table.component';
 import { IFood } from 'src/app/food-table/food-table.component';
 import { CreateEntryModal } from 'src/app/modals/createEntryModal/create-entry-modal';
 import { CreateExitModal } from 'src/app/modals/createExitModal/create-exit-modal';
 
-export interface IEntry {
-  food: IFood;
+interface IExit {
+  entry: IEntry;
   stock: IStock;
   quantity: number;
 }
 
 @Component({
-  selector: 'app-entry-table',
-  templateUrl: './entry-table.component.html',
-  styleUrls: ['./entry-table.component.scss'],
+  selector: 'app-exit-table',
+  templateUrl: './exit-table.component.html',
+  styleUrls: ['./exit-table.component.scss'],
 })
-export class EntryTableComponent implements AfterViewInit, OnInit {
+export class ExitTableComponent {
   constructor(
     private dashboardService: DashboardService,
     public dialog: MatDialog,
   ) {}
   private items$: any;
+  displayedColumns: string[] = ['id', 'quantity', 'stock'];
+  dataSource: IExit[] = [];
   foods: IFood[] = [];
-  displayedColumns: string[] = ['id', 'quantity', 'food', 'stock', 'actions'];
-  dataSource: IEntry[] = [];
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
   ngOnInit(): void {
-    (this.items$ = this.dashboardService.getEntries({
-      sort: {
-        by: 'id',
-        order: 'ASC',
-      },
-    })),
-      //getentries
-      this.items$.valueChanges.subscribe((result: any) => {
-        this.dataSource = result.data.entries;
-      });
+    this.items$ = this.dashboardService.getExits();
+
+    this.items$.valueChanges.subscribe((result: any) => {
+      this.dataSource = result.data.exits;
+    });
     //getfoods
+
     this.dashboardService.getFoods().valueChanges.subscribe((result: any) => {
       this.foods = result.data.foods;
     });
@@ -55,20 +52,11 @@ export class EntryTableComponent implements AfterViewInit, OnInit {
       }),
     );
   }
-
   applyFilterbyFoodName(event: Event) {
     const filterValue = event;
+    console.log(filterValue);
     this.items$.refetch({
       filterByFoodName: filterValue,
-    });
-  }
-
-  openDialog() {
-    this.dialog.open(CreateEntryModal);
-  }
-  openDialogCreateExit(entryId: number) {
-    this.dialog.open(CreateExitModal, {
-      data: entryId,
     });
   }
 }

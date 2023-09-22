@@ -32,8 +32,8 @@ const GET_FOODS = gql`
 `;
 
 const GET_ENTRIES = gql`
-  query ($filter: [FilterArgs!], $sort: SortArgs) {
-    entries(filter: $filter, sort: $sort) {
+  query ($filter: [FilterArgs!], $sort: SortArgs, $filterByFoodName: String) {
+    entries(filter: $filter, sort: $sort, filterByFoodName: $filterByFoodName) {
       id
       quantity
       food {
@@ -58,17 +58,12 @@ const CREATE_ENTRY = gql`
 `;
 
 const GET_EXITS = gql`
-  query {
-    exits {
+  query ($filter: [FilterArgs!], $sort: SortArgs, $filterByFoodName: String) {
+    exits(filter: $filter, sort: $sort, filterByFoodName: $filterByFoodName) {
       id
       quantity
-      unit {
+      entry {
         id
-        name
-      }
-      food {
-        id
-        name
       }
       stock {
         id
@@ -77,7 +72,14 @@ const GET_EXITS = gql`
     }
   }
 `;
-
+const CREATE_EXIT = gql`
+  mutation createExit($data: CreateExitInput!) {
+    createExit(data: $data) {
+      id
+      quantity
+    }
+  }
+`;
 export {
   GET_STOCKS,
   GET_UNITS,
@@ -85,4 +87,5 @@ export {
   GET_ENTRIES,
   GET_EXITS,
   CREATE_ENTRY,
+  CREATE_EXIT,
 };

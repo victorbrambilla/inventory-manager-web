@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import {
   CREATE_ENTRY,
+  CREATE_EXIT,
   GET_ENTRIES,
   GET_EXITS,
   GET_FOODS,
@@ -15,6 +16,12 @@ export interface ICreateEntry {
   quantity: number;
   expirationDate: string;
 }
+
+interface ICreateExit {
+  quantity: number;
+  entryId: number;
+}
+
 interface IFilter {
   by: string;
   value: string;
@@ -26,8 +33,8 @@ interface ISort {
 }
 
 interface IParams {
-  filter: IFilter[];
-  sort: ISort;
+  filter?: IFilter[];
+  sort?: ISort;
 }
 
 export interface IStock {
@@ -41,9 +48,9 @@ export interface IStockResult {
 }
 
 interface IEntriesAndExitsParams {
-  filter: IFilter[];
-  sort: ISort;
-  filterByFoodName: string;
+  filter?: IFilter[];
+  sort?: ISort;
+  filterByFoodName?: string;
 }
 
 @Injectable({
@@ -105,6 +112,26 @@ export class DashboardService {
     return this.apollo.watchQuery({
       query: GET_EXITS,
       variables: params,
+    });
+  };
+
+  createExit = ({ quantity, entryId }: ICreateExit) => {
+    return this.apollo.mutate<any>({
+      mutation: CREATE_EXIT,
+      variables: {
+        data: {
+          quantity,
+          entryId,
+        },
+      },
+      refetchQueries: [
+        {
+          query: GET_ENTRIES,
+        },
+        {
+          query: GET_EXITS,
+        },
+      ],
     });
   };
 }

@@ -1,7 +1,6 @@
 <div>
 
   <div class='containerFilter'>
-
     <mat-form-field class='input-full-width'>
       <mat-label>Filtrar por Alimento</mat-label>
       <mat-select (selectionChange)="applyFilterbyFoodName($event.value)">
@@ -11,7 +10,6 @@
       </mat-select>
     </mat-form-field>
 
-    <button class='button' mat-button mat-raised-button color="primary" extended (click)="openDialog()">Criar entrada</button>
 
   </div>
 
@@ -23,23 +21,13 @@
     </ng-container>
 
     <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantidade </th>
+      <th mat-header-cell *matHeaderCellDef> Quantidade </th>
       <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="food">
-      <th mat-header-cell *matHeaderCellDef> Alimento </th>
-      <td mat-cell *matCellDef="let element"> {{element.food.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="stock">
       <th mat-header-cell *matHeaderCellDef> Estoque </th>
       <td mat-cell *matCellDef="let element"> {{element.stock.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Ações </th>
-      <td mat-cell *matCellDef="let element"> <button *ngIf="element.quantity > 0" mat-button mat-raised-button color="primary" (click)="openDialogCreateExit(element.id)">Criar saida</button> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

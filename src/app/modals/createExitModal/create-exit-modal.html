@@ -1,0 +1,32 @@
+<div>
+  <h1 mat-dialog-title>Criar Saída</h1>
+  <form mat-dialog-content class='form' form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- <mat-form-field>
+      <mat-label>Alimento</mat-label>
+      <mat-select formControlName="entryId" required>
+        <mat-option *ngFor="let food of entries" [value]="food.id">
+          {{food.name}}
+        </mat-option>
+        <mat-error *ngIf="registerForm.get('entryId')?.hasError('required')">
+          Obrigatório
+        </mat-error>
+
+      </mat-select>
+    </mat-form-field> -->
+
+
+
+    <mat-form-field class="input-full-width">
+      <mat-label>Quantidade</mat-label>
+      <input formControlName="quantity" type="number" matInput placeholder="Digite">
+      <mat-error *ngIf="registerForm.get('quantity')?.hasError('required')">
+        Obrigatório
+      </mat-error>
+
+    </mat-form-field>
+
+
+
+    <button type="submit" mat-button mat-raised-button color="primary">Criar saída</button>
+  </form>
+</div>

@@ -1,5 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DashboardService, IStock } from 'src/app/dashboard.service';
 import { IFood } from 'src/app/food-table/food-table.component';
@@ -13,6 +14,7 @@ export class CreateEntryModal implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<CreateEntryModal>,
   ) {}
   foods: IFood[] = [];
   stocks: IStock[] = [];
@@ -23,13 +25,6 @@ export class CreateEntryModal implements OnInit {
     stockId: new FormControl('', [Validators.required]),
     expirationDate: new FormControl('', [Validators.required]),
   });
-
-  getErrorMessage(control: FormControl, controlName: string): string | null {
-    if (control.hasError('required')) {
-      return `${controlName} é obrigatório.`;
-    }
-    return null; // Retorna null se não houver erro
-  }
 
   async onSubmit() {
     if (
@@ -42,7 +37,7 @@ export class CreateEntryModal implements OnInit {
 
     this.dashboardService
       .createEntry({
-        foodId: 88,
+        foodId: +this.registerForm.value.foodId,
         stockId: +this.registerForm.value.stockId,
         quantity: +this.registerForm.value.quantity,
         expirationDate: this.registerForm.value.expirationDate,
@@ -52,6 +47,7 @@ export class CreateEntryModal implements OnInit {
           this.snackBar.open('Entrada criada com sucesso!', 'Fechar', {
             duration: 2000,
           });
+          this.dialogRef.close();
         },
         (error) => {
           console.log(error.message);
